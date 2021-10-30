@@ -92,3 +92,55 @@ func TestDelete(t *testing.T) {
 	assert.Equal(t, nil, hm.Get("Daughter"))
 	assert.Equal(t, nil, hm.Get("Dog"))
 }
+
+func BenchmarkHashTableInsert(b *testing.B) {
+	keys := []string{
+		"aaa", "bbb", "ccc", "ddd", "eee", "fff",
+		"ggg", "hhh", "iii", "jjj", "kkk", "lll",
+		"mmm", "nnn", "ooo", "ppp", "qqq", "rrr",
+		"sss", "ttt", "uuu", "vvv", "www", "xxx",
+		"yyy", "zzz",
+	}
+	hm := NewHashTable(100)
+	for i := 0; i < b.N; i++ {
+		hm.Insert(keys[i%26], i)
+	}
+}
+
+func BenchmarkHashTableGet(b *testing.B) {
+	keys := []string{
+		"aaa", "bbb", "ccc", "ddd", "eee", "fff",
+		"ggg", "hhh", "iii", "jjj", "kkk", "lll",
+		"mmm", "nnn", "ooo", "ppp", "qqq", "rrr",
+		"sss", "ttt", "uuu", "vvv", "www", "xxx",
+		"yyy", "zzz",
+	}
+	hm := NewHashTable(100)
+
+	for i, key := range keys {
+		hm.Insert(key, i)
+	}
+
+	for i := 0; i < b.N; i++ {
+		hm.Get(keys[i%26])
+	}
+}
+
+func BenchmarkHashTableDelete(b *testing.B) {
+	keys := []string{
+		"aaa", "bbb", "ccc", "ddd", "eee", "fff",
+		"ggg", "hhh", "iii", "jjj", "kkk", "lll",
+		"mmm", "nnn", "ooo", "ppp", "qqq", "rrr",
+		"sss", "ttt", "uuu", "vvv", "www", "xxx",
+		"yyy", "zzz",
+	}
+	hm := NewHashTable(100)
+
+	for i, key := range keys {
+		hm.Insert(key, i)
+	}
+
+	for i := 0; i < b.N; i++ {
+		hm.Delete(keys[i%26])
+	}
+}

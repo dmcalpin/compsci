@@ -1,5 +1,13 @@
 package concepts
 
+// Hashing is the process of taking a value, and
+// computing a smaller value which represents
+// the original.
+//
+// In a Hash Table, the hash function computes
+// an index at which data is stored and
+// subsequently retrieved or deleted.
+
 type HashTable struct {
 	size   int
 	values []interface{}
