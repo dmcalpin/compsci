@@ -25,6 +25,7 @@ func NewHashTable(n int) *HashTable {
 
 // Insert will hash the key and store both
 // the key and value at the computed index
+// Efficiency: O(1)
 func (h *HashTable) Insert(key string, value interface{}) {
 	i := h.simpleHash(key)
 	h.values[i] = value
@@ -32,6 +33,7 @@ func (h *HashTable) Insert(key string, value interface{}) {
 
 // Get will hash the key and retrieve the
 // value at the computed index
+// Efficiency: O(1)
 func (h *HashTable) Get(key string) interface{} {
 	i := h.simpleHash(key)
 	return h.values[i]
@@ -40,6 +42,7 @@ func (h *HashTable) Get(key string) interface{} {
 // Delete will hash the key and set
 // the value at the computed index to
 // nil
+// Efficiency: O(1)
 func (h *HashTable) Delete(key string) {
 	i := h.simpleHash(key)
 	h.values[i] = nil
