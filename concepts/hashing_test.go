@@ -3,144 +3,18 @@ package concepts
 import (
 	"testing"
 
-	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/suite"
 )
 
-func TestNewHashTable(t *testing.T) {
-	size := 5
-
-	hashTable := NewHashTable(size)
-
-	assert.Equal(t, &HashTable{
-		size:   size,
-		values: make([]interface{}, size),
-	}, hashTable)
+type HashingSuite struct {
+	suite.Suite
 }
 
-func TestInsertOneItem(t *testing.T) {
-	hm := NewHashTable(5)
-
-	hm.Insert("testkey", 3)
-
-	assert.Equal(t, []interface{}{
-		nil, nil, 3, nil, nil,
-	}, hm.values)
+func (s *HashingSuite) TestSimpleHash() {
+	s.Equal(123, SimpleHash("Howdy", 200))
+	s.Equal(189, SimpleHash("Alaska", 200))
 }
 
-func TestInsertOneMultipleItems(t *testing.T) {
-	hm := NewHashTable(100)
-
-	hm.Insert("Dad", 38)
-	hm.Insert("Mom", 37)
-	hm.Insert("Son", 15)
-	hm.Insert("Daughter", 12)
-	hm.Insert("Dog", 4)
-
-	assert.Equal(t, 38, hm.values[65])
-	assert.Equal(t, 37, hm.values[97])
-	assert.Equal(t, 15, hm.values[4])
-	assert.Equal(t, 12, hm.values[20])
-	assert.Equal(t, 4, hm.values[82])
-}
-
-func TestGet(t *testing.T) {
-	hm := NewHashTable(100)
-
-	hm.Insert("Dad", 38)
-	hm.Insert("Mom", 37)
-	hm.Insert("Son", 15)
-	hm.Insert("Daughter", 12)
-	hm.Insert("Dog", 4)
-
-	assert.Equal(t, 38, hm.Get("Dad"))
-	assert.Equal(t, 37, hm.Get("Mom"))
-	assert.Equal(t, 15, hm.Get("Son"))
-	assert.Equal(t, 12, hm.Get("Daughter"))
-	assert.Equal(t, 4, hm.Get("Dog"))
-}
-
-func TestGetValueDoesNotExist(t *testing.T) {
-	hm := NewHashTable(10)
-
-	assert.Equal(t, nil, hm.Get("nope"))
-}
-
-func TestDelete(t *testing.T) {
-	hm := NewHashTable(100)
-
-	hm.Insert("Dad", 38)
-	hm.Insert("Mom", 37)
-	hm.Insert("Son", 15)
-	hm.Insert("Daughter", 12)
-	hm.Insert("Dog", 4)
-
-	assert.Equal(t, 38, hm.Get("Dad"))
-	assert.Equal(t, 37, hm.Get("Mom"))
-	assert.Equal(t, 15, hm.Get("Son"))
-	assert.Equal(t, 12, hm.Get("Daughter"))
-	assert.Equal(t, 4, hm.Get("Dog"))
-
-	hm.Delete("Dad")
-	hm.Delete("Mom")
-	hm.Delete("Son")
-	hm.Delete("Daughter")
-	hm.Delete("Dog")
-
-	assert.Equal(t, nil, hm.Get("Dad"))
-	assert.Equal(t, nil, hm.Get("Mom"))
-	assert.Equal(t, nil, hm.Get("Son"))
-	assert.Equal(t, nil, hm.Get("Daughter"))
-	assert.Equal(t, nil, hm.Get("Dog"))
-}
-
-func BenchmarkHashTableInsert(b *testing.B) {
-	keys := []string{
-		"aaa", "bbb", "ccc", "ddd", "eee", "fff",
-		"ggg", "hhh", "iii", "jjj", "kkk", "lll",
-		"mmm", "nnn", "ooo", "ppp", "qqq", "rrr",
-		"sss", "ttt", "uuu", "vvv", "www", "xxx",
-		"yyy", "zzz",
-	}
-	hm := NewHashTable(100)
-	for i := 0; i < b.N; i++ {
-		hm.Insert(keys[i%26], i)
-	}
-}
-
-func BenchmarkHashTableGet(b *testing.B) {
-	keys := []string{
-		"aaa", "bbb", "ccc", "ddd", "eee", "fff",
-		"ggg", "hhh", "iii", "jjj", "kkk", "lll",
-		"mmm", "nnn", "ooo", "ppp", "qqq", "rrr",
-		"sss", "ttt", "uuu", "vvv", "www", "xxx",
-		"yyy", "zzz",
-	}
-	hm := NewHashTable(100)
-
-	for i, key := range keys {
-		hm.Insert(key, i)
-	}
-
-	for i := 0; i < b.N; i++ {
-		hm.Get(keys[i%26])
-	}
-}
-
-func BenchmarkHashTableDelete(b *testing.B) {
-	keys := []string{
-		"aaa", "bbb", "ccc", "ddd", "eee", "fff",
-		"ggg", "hhh", "iii", "jjj", "kkk", "lll",
-		"mmm", "nnn", "ooo", "ppp", "qqq", "rrr",
-		"sss", "ttt", "uuu", "vvv", "www", "xxx",
-		"yyy", "zzz",
-	}
-	hm := NewHashTable(100)
-
-	for i, key := range keys {
-		hm.Insert(key, i)
-	}
-
-	for i := 0; i < b.N; i++ {
-		hm.Delete(keys[i%26])
-	}
+func TestHashingSuite(t *testing.T) {
+	suite.Run(t, new(HashingSuite))
 }

@@ -3,7 +3,6 @@ package data_structures
 import (
 	"testing"
 
-	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/suite"
 )
 
@@ -13,20 +12,20 @@ type StackLLSuite struct {
 
 func (s *StackLLSuite) TestNewStackLL() {
 	stack := NewStackLL()
-	assert.Equal(s.T(), &StackLL{}, stack)
+	s.Equal(&StackLL{}, stack)
 }
 
 func (s *StackLLSuite) TestPush() {
 	stack := NewStackLL()
 
 	stack.Push(1)
-	assert.Equal(s.T(), 1, stack.head.value)
+	s.Equal(1, stack.head.value)
 
 	stack.Push(2)
-	assert.Equal(s.T(), 2, stack.head.value)
+	s.Equal(2, stack.head.value)
 
 	stack.Push(3)
-	assert.Equal(s.T(), 3, stack.head.value)
+	s.Equal(3, stack.head.value)
 }
 
 func (s *StackLLSuite) TestPop() {
@@ -36,16 +35,16 @@ func (s *StackLLSuite) TestPop() {
 	stack.Push(3)
 
 	item := stack.Pop()
-	assert.Equal(s.T(), 3, item)
+	s.Equal(3, item)
 
 	item = stack.Pop()
-	assert.Equal(s.T(), 2, item)
+	s.Equal(2, item)
 
 	item = stack.Pop()
-	assert.Equal(s.T(), 1, item)
+	s.Equal(1, item)
 
 	item = stack.Pop()
-	assert.Equal(s.T(), nil, item)
+	s.Nil(item)
 }
 
 func (s *StackLLSuite) TestPeek() {
@@ -54,24 +53,24 @@ func (s *StackLLSuite) TestPeek() {
 	stack.Push(3)
 
 	item := stack.Peek()
-	assert.Equal(s.T(), 3, item)
+	s.Equal(3, item)
 
 	item = stack.Peek()
-	assert.Equal(s.T(), 3, item)
+	s.Equal(3, item)
 
 	stack.Pop()
 
 	item = stack.Peek()
-	assert.Equal(s.T(), 2, item)
+	s.Equal(2, item)
 }
 
 func (s *StackLLSuite) TestIsEmpty() {
 	stack := NewStackLL()
 	stack.Push(1)
-	assert.False(s.T(), stack.IsEmpty())
+	s.False(stack.IsEmpty())
 
 	stack.Pop()
-	assert.True(s.T(), stack.IsEmpty())
+	s.True(stack.IsEmpty())
 }
 
 func BenchmarkStackLLPush(t *testing.B) {

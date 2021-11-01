@@ -3,7 +3,6 @@ package data_structures
 import (
 	"testing"
 
-	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/suite"
 )
 
@@ -20,10 +19,10 @@ func (s *StackSuite) SetupTest() {
 
 func (s *StackSuite) TestNewStack() {
 	stack := NewStack(nil)
-	assert.Equal(s.T(), &Stack{}, stack)
+	s.Equal(&Stack{}, stack)
 
 	stack = NewStack(s.smallItems)
-	assert.Equal(s.T(), &Stack{
+	s.Equal(&Stack{
 		items: s.smallItems,
 	}, stack)
 }
@@ -32,17 +31,17 @@ func (s *StackSuite) TestPush() {
 	stack := NewStack(nil)
 
 	stack.Push(1)
-	assert.Equal(s.T(), &Stack{
+	s.Equal(&Stack{
 		items: []interface{}{1},
 	}, stack)
 
 	stack.Push(2)
-	assert.Equal(s.T(), &Stack{
+	s.Equal(&Stack{
 		items: []interface{}{1, 2},
 	}, stack)
 
 	stack.Push(3)
-	assert.Equal(s.T(), &Stack{
+	s.Equal(&Stack{
 		items: []interface{}{1, 2, 3},
 	}, stack)
 }
@@ -51,39 +50,39 @@ func (s *StackSuite) TestPop() {
 	stack := NewStack(s.smallItems)
 
 	item := stack.Pop()
-	assert.Equal(s.T(), 3, item)
+	s.Equal(3, item)
 
 	item = stack.Pop()
-	assert.Equal(s.T(), 2, item)
+	s.Equal(2, item)
 
 	item = stack.Pop()
-	assert.Equal(s.T(), 1, item)
+	s.Equal(1, item)
 
 	item = stack.Pop()
-	assert.Equal(s.T(), nil, item)
+	s.Equal(nil, item)
 }
 
 func (s *StackSuite) TestPeek() {
 	stack := NewStack(s.smallItems)
 
 	item := stack.Peek()
-	assert.Equal(s.T(), 3, item)
+	s.Equal(3, item)
 
 	item = stack.Peek()
-	assert.Equal(s.T(), 3, item)
+	s.Equal(3, item)
 
 	stack.Pop()
 
 	item = stack.Peek()
-	assert.Equal(s.T(), 2, item)
+	s.Equal(2, item)
 }
 
 func (s *StackSuite) TestIsEmpty() {
 	stack := NewStack([]interface{}{1})
-	assert.False(s.T(), stack.IsEmpty())
+	s.False(stack.IsEmpty())
 
 	stack.Pop()
-	assert.True(s.T(), stack.IsEmpty())
+	s.True(stack.IsEmpty())
 }
 
 func BenchmarkPush(t *testing.B) {
