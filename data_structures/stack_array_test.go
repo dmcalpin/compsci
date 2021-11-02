@@ -85,7 +85,7 @@ func (s *StackSuite) TestIsEmpty() {
 	s.True(stack.IsEmpty())
 }
 
-func BenchmarkPush(t *testing.B) {
+func BenchmarkStackPush(t *testing.B) {
 	stack := NewStack(nil)
 
 	for i := 0; i < t.N; i++ {
@@ -93,7 +93,7 @@ func BenchmarkPush(t *testing.B) {
 	}
 }
 
-func BenchmarkPop(t *testing.B) {
+func BenchmarkStackPop(t *testing.B) {
 	stack := NewStack(nil)
 	for i := 0; i < 100000; i++ {
 		stack.Push(i)
@@ -104,7 +104,7 @@ func BenchmarkPop(t *testing.B) {
 	}
 }
 
-func BenchmarkPeek(t *testing.B) {
+func BenchmarkStackPeek(t *testing.B) {
 	stack := NewStack(nil)
 	for i := 0; i < 1000; i++ {
 		stack.Push(i)
@@ -115,7 +115,7 @@ func BenchmarkPeek(t *testing.B) {
 	}
 }
 
-func BenchmarkIsEmpty(t *testing.B) {
+func BenchmarkStackIsEmpty(t *testing.B) {
 	stack := NewStack(nil)
 	stack.Push(1)
 
