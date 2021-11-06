@@ -5,11 +5,6 @@ package concepts
 // and abandons paths that are not
 // possible solutions
 
-type Coord struct {
-	X int
-	Y int
-}
-
 type NQueenSolver struct {
 	board        [][]int
 	size         int
@@ -36,48 +31,52 @@ func (s *NQueenSolver) Solve() [][]int {
 }
 
 func (s *NQueenSolver) placeQueen(col int) bool {
-	// try to place in this column
+	// All queens are placed, success!
+	if s.queensPlaced == s.size {
+		return true
+	}
+
 	for i := 0; i < s.size; i++ {
-		s.board[col][i] = 1
-		s.queensPlaced++
-		if s.isConflict(&Coord{col, i}) {
-			s.board[col][i] = 0
-			s.queensPlaced--
-		} else {
-			// if we place them all, we've succeded
-			if s.queensPlaced == s.size {
-				return true
-			}
-			success := s.placeQueen(col + 1)
-			if success {
-				return true
-			}
-			s.board[col][i] = 0
-			s.queensPlaced--
+		// check first to see if we can place
+		// the queen
+		if s.isConflict(col, i) {
+			continue
 		}
 
+		// place it
+		s.board[col][i] = 1
+		s.queensPlaced++
+
+		// start placing the next column
+		if s.placeQueen(col + 1) {
+			return true
+		}
+
+		// Failure, remove the piece
+		s.board[col][i] = 0
+		s.queensPlaced--
 	}
 
 	return false
 }
 
-func (s *NQueenSolver) isConflict(c *Coord) bool {
+func (s *NQueenSolver) isConflict(x, y int) bool {
 	// check row
-	for i := c.X - 1; i >= 0; i-- {
-		if s.board[i][c.Y] == 1 {
+	for i := x - 1; i >= 0; i-- {
+		if s.board[i][y] == 1 {
 			return true
 		}
 	}
 
 	// check column
-	for i := c.Y - 1; i >= 0; i-- {
-		if s.board[c.X][i] == 1 {
+	for i := y - 1; i >= 0; i-- {
+		if s.board[x][i] == 1 {
 			return true
 		}
 	}
 
 	// check diag left
-	i, j := c.X-1, c.Y-1
+	i, j := x-1, y-1
 	for {
 		if i < 0 || j < 0 {
 			break
@@ -90,7 +89,7 @@ func (s *NQueenSolver) isConflict(c *Coord) bool {
 	}
 
 	// check diag right
-	i, j = c.X-1, c.Y+1
+	i, j = x-1, y+1
 	for {
 		if i < 0 || j > s.size-1 {
 			break
