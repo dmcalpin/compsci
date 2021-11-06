@@ -76,7 +76,7 @@ func (s *NQueenSolver) isConflict(c *Coord) bool {
 		}
 	}
 
-	// check diag
+	// check diag left
 	i, j := c.X-1, c.Y-1
 	for {
 		if i < 0 || j < 0 {
@@ -87,6 +87,19 @@ func (s *NQueenSolver) isConflict(c *Coord) bool {
 		}
 		i--
 		j--
+	}
+
+	// check diag right
+	i, j = c.X-1, c.Y+1
+	for {
+		if i < 0 || j > s.size-1 {
+			break
+		}
+		if s.board[i][j] == 1 {
+			return true
+		}
+		i--
+		j++
 	}
 
 	return false
