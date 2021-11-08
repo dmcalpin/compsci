@@ -19,27 +19,27 @@ func MergeSort(items []int) []int {
 }
 
 func merge(left, right []int) []int {
-	merged := []int{}
+	merged := make([]int, len(left)+len(right))
 
 	l := 0
 	r := 0
 
 	for l < len(left) && r < len(right) {
 		if left[l] > right[r] {
-			merged = append(merged, right[r])
+			merged[l+r] = right[r]
 			r++
 		} else {
-			merged = append(merged, left[l])
+			merged[l+r] = left[l]
 			l++
 		}
 	}
 
 	for l < len(left) {
-		merged = append(merged, left[l])
+		merged[l+r] = left[l]
 		l++
 	}
 	for r < len(right) {
-		merged = append(merged, right[r])
+		merged[l+r] = right[r]
 		r++
 	}
 
