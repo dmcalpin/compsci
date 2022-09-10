@@ -18,7 +18,6 @@ func (s *RetrySuite) TestSuccess() {
 
 	err := Retry(func() error {
 		if tries < 3 {
-			fmt.Println("dave", tries)
 			tries++
 			return fmt.Errorf("even number!: %d", tries)
 		}
