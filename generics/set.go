@@ -1,5 +1,10 @@
 package generics
 
+import (
+	"fmt"
+	"sort"
+)
+
 type GSet[T comparable] struct {
 	val map[T]bool
 }
@@ -163,4 +168,16 @@ func (gs *GSet[T]) Equal(otherSet *GSet[T]) bool {
 	return true
 }
 
-// Hash goes here
+func (gs *GSet[T]) Hash() string {
+	if gs.IsEmpty() {
+		return ""
+	}
+
+	enumeration := []string{}
+	for elem := range gs.val {
+		enumeration = append(enumeration, fmt.Sprintf("%v", elem))
+	}
+	sort.Strings(enumeration)
+
+	return fmt.Sprintf("%v", enumeration)
+}

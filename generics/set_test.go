@@ -198,6 +198,22 @@ func (s *GSetSuite) TestEqual() {
 	s.Require().False(gSet.Equal(gSet4))
 }
 
+func (s *GSetSuite) TestHash() {
+	gSet := NewGSet("a", "b", "c", "d")
+	gSet2 := NewGSet("c", "d", "a", "b")
+	gSet3 := NewGSet(1, 3, 2)
+	gSet4 := NewGSet(2, 1, 3)
+	gSet5 := NewGSet[string]()
+
+	s.Require().Equal("[a b c d]", gSet.Hash())
+	s.Require().Equal(gSet.Hash(), gSet2.Hash())
+
+	s.Require().Equal("[1 2 3]", gSet3.Hash())
+	s.Require().Equal(gSet3.Hash(), gSet4.Hash())
+
+	s.Require().Equal("", gSet5.Hash())
+}
+
 func TestGSetSuite(t *testing.T) {
 	suite.Run(t, new(GSetSuite))
 }
