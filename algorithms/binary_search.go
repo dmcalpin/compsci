@@ -5,8 +5,8 @@ package compsci
 // The collection must be sorted
 // first.
 //
-// The agorithm is as follows:
-// 0. left = 0, right = len(collection)
+// The algorithm is as follows:
+// 0. left = 0, right = len(collection) - 1
 // Loop ->
 // 1. Start in the center of left/right
 // 2. If search > iter, left = i+1
@@ -20,26 +20,19 @@ package compsci
 // Returns index of found item, or -1 if not found
 func BinarySearch(collection []int, item int) int {
 	left := 0
-	right := len(collection)
+	right := len(collection) - 1
 
-	for {
-		if right < left {
-			return -1
-		}
-
+	for left <= right {
 		middle := (left + right) / 2
-		if middle >= len(collection) {
-			return -1
-		}
+		mid := collection[middle]
 
-		m := collection[middle]
-		if item > m {
-			left = middle + 1
-			continue
-		} else if item < m {
+		if item < mid {
 			right = middle - 1
-			continue
+		} else if item > mid {
+			left = middle + 1
+		} else {
+			return middle
 		}
-		return middle
 	}
+	return -1
 }

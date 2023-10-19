@@ -1,6 +1,7 @@
 package compsci
 
 import (
+	"math/rand"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -94,16 +95,41 @@ func TestBinarySearch(t *testing.T) {
 	}
 }
 
-func BenchmarkBinarySearch(t *testing.B) {
-	// even at 1M items, it still takes
-	// 42 ns/op
-	numItems := 1000000
-	items := []int{}
+func BenchmarkBinarySearch1000(t *testing.B) {
+	numItems := 1000
+	items := make([]int, numItems)
 	for i := 0; i < numItems; i++ {
-		items = append(items, i)
+		items[i] = i
 	}
 
 	for i := 0; i < t.N; i++ {
-		BinarySearch(items, i%numItems)
+		search := rand.Intn(numItems)
+		BinarySearch(items, search)
+	}
+}
+
+func BenchmarkBinarySearch1000000(t *testing.B) {
+	numItems := 1000000
+	items := make([]int, numItems)
+	for i := 0; i < numItems; i++ {
+		items[i] = i
+	}
+
+	for i := 0; i < t.N; i++ {
+		search := rand.Intn(numItems)
+		BinarySearch(items, search)
+	}
+}
+
+func BenchmarkBinarySearch50000000(t *testing.B) {
+	numItems := 500000000
+	items := make([]int, numItems)
+	for i := 0; i < numItems; i++ {
+		items[i] = i
+	}
+
+	for i := 0; i < t.N; i++ {
+		search := rand.Intn(numItems)
+		BinarySearch(items, search)
 	}
 }
